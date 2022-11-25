@@ -8,13 +8,16 @@
 
 ## 1. 설정
 
+최신 버전의 create-react-app 을 사용하려면 global 설치하지 말것!
+
 ```bash
-$ yarn create react-app board-game
-$ cd board-game
+$ yarn create react-app square-board-game
 
-$ yarn start
+$ cd square-board-game
 
-$ yarn build
+$ yarn start  # ==> http://localhost:3000
+
+$ yarn build  # ==> build 디렉토리에 배포버전 생성
 ```
 
 ## 2. 코딩
@@ -66,6 +69,8 @@ $ yarn build
 ### 1) Board 에 게임 상태가 저장되는 형태
 
 - Board 의 상태값으로 Square 마킹 출력
+
+![TicTacToe ver1 Capture](/assets/react-tictactoe-ver1.png){: width="600"}
 
 ### 2) Game(App) 에 게임 상태가 저장되는 형태
 

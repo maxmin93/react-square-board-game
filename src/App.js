@@ -45,7 +45,7 @@ const Board = ({ handleInfo }) => {
       console.log("Play count =", count);
       if (count === 9) {
         const winner = calculateWinner(squares);
-        let info = `Game Over: Winner=${winner ? "'" + winner + "'" : "None"}`;
+        let info = `Winner=${winner ? "'" + winner + "'" : "None"}`;
         console.log(info);
         handleInfo(info); // send game-info to parent
       }
