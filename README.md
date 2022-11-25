@@ -1,70 +1,77 @@
-# Getting Started with Create React App
+# React Tutorial : [Square Board Game (TicTacTok)](https://reactjs.org/tutorial/tutorial.html#inspecting-the-starter-code)
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+'틱택톡' 보드게임 튜토리얼을 Functional Component(함수형 컴포넌트)로 구현
 
-## Available Scripts
+- 공식문서에는 클래스형 컴포넌트로 설명하고 있음
+- 깃허브 또는 검색 결과에는 Board 컴포넌트가 클래스형으로 기술된 것들뿐
+- 리액트 공부 1-Day 과제
 
-In the project directory, you can run:
+## 1. 설정
 
-### `yarn start`
+```bash
+$ yarn create react-app board-game
+$ cd board-game
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+$ yarn start
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+$ yarn build
+```
 
-### `yarn test`
+## 2. 코딩
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+### 1) 파일 구성
 
-### `yarn build`
+- `board-game`
+  - package.json
+  - public
+    - index.html : `<div id="root"></div>` 포함
+    - favicon.ico 등.. assets 파일들
+  - src
+    - index.js : `#root` 에 ReactDOM 생성 (건드릴 부분 없음)
+    - index.css : 전체에 영향을 미치는 스타일 정의
+    - App.js : root 컴포넌트
+    - App.css : root 컴포넌트를 위한 스타일 정의
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### 2) 컴포넌트 구성
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+#### App (Game) 컴포넌트
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- 보드의 상태 정보를 생성하고 관리
+- 현재 상태 또는 종료시 승리자를 출력
 
-### `yarn eject`
+#### Board 컴포넌트
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+- 플레이어의 클릭 이벤트와 차례를 제어
+- 이미 마킹된 경우 변경 없음
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+#### Square 컴포넌트
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+- 최초 상태는 공백
+- 클릭된 경우 마킹된 표식을 출력 (X 또는 O)
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### 3) 로직
 
-## Learn More
+#### 전체 흐름
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+1. 최초 X 플레이어부터 시작 (다음은 O 플레이어)
+2. 9개의 셀에 중에 임의의 위치를 클릭하여 자신의 표식을 마킹
+3. 이미 마킹된 셀의 표식은 변경할 수 없음
+4. 9개의 셀이 모두 마킹되면, 승리자를 계산
+5. 승리자를 게임 정보에 출력
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+#### Winner 판정 : calculateWinner 함수
 
-### Code Splitting
+## 3. 구현 버전
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+### 1) Board 에 게임 상태가 저장되는 형태
 
-### Analyzing the Bundle Size
+- Board 의 상태값으로 Square 마킹 출력
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+### 2) Game(App) 에 게임 상태가 저장되는 형태
 
-### Making a Progressive Web App
+- Game 의 상태값으로 Square 마킹 출력
+- Board 는 게임 자체의 제약과 전달자 역활만 수행
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+## 4. 실행
 
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `yarn build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+## 9. Summary
