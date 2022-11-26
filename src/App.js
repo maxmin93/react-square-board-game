@@ -1,9 +1,15 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import "./App.css";
 
 const Square = ({ value, onClick }) => {
-  // 내부에 값을 가지면 값 변경도 내부에서 처리해야 함
-  // 외부의 이벤트를 가져와 처리하던지
+  // useEffect(() => {
+  //   if (value) {
+  //     console.log(`Square marked:`, value);
+  //   }
+  // });
+
+  // 내부에 값을 가지면 값 변경도 내부에서 책임져야 함
+  // 그렇게 안하려면, 부모의 함수를 연결한다
   return (
     <button className="square" onClick={onClick}>
       {value}
@@ -11,67 +17,11 @@ const Square = ({ value, onClick }) => {
   );
 };
 
-function calculateWinner(squares) {
-  // 8가지의 승리 조건
-  const lines = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6],
-    [1, 4, 7],
-    [2, 5, 8],
-    [0, 4, 8],
-    [2, 4, 6],
-  ];
-  for (let i = 0; i < lines.length; i++) {
-    const [a, b, c] = lines[i];
-    if (squares[a] && squares[a] === squares[b] && squares[a] === squares[c]) {
-      return squares[a]; // 승리한 플레이어의 표시: X 또는 O
-    }
-  }
-  return null; // 승리자가 없음
-}
-
-const Board = ({ handleInfo }) => {
-  const [squares, setSquares] = useState(Array(9).fill(null));
-  const [order, setOrder] = useState(0);
-
-  // 렌더링 이후에 실행되는 함수
-  useEffect(function verifyScore() {
-    if (order >= 9) {
-      const count = squares.reduce((acc, curr) => {
-        return curr !== null ? acc + 1 : acc;
-      }, 0);
-      console.log("Play count =", count);
-      if (count === 9) {
-        const winner = calculateWinner(squares);
-        let info = `Winner=${winner ? "'" + winner + "'" : "None"}`;
-        console.log(info);
-        handleInfo(info); // send game-info to parent
-      }
-    }
-  });
-
-  const handleClick = (i) => {
-    if (squares[i] !== null) {
-      console.log("Already filled");
-      return;
-    }
-
-    // New Array를 만들지 않으면 React는 렌더링을 건너뛴다.
-    // 당연히 Square 에도 value 값이 바뀌지 않는다.
-    const nextSquares = squares.slice(); // 얕은 복사본 생성
-    nextSquares[i] = order % 2 === 0 ? "X" : "O";
-    setSquares(nextSquares);
-    setOrder(order + 1);
-    console.log(`Click[${order}] : Square[${i}] => ${nextSquares[i]}`);
-  };
-
+const Board = ({ status, squares, handleClick }) => {
   const renderSquare = (i) => {
+    // handleClick(i)는 Board 내부에서 바인딩 된다.
     return <Square value={squares[i]} onClick={() => handleClick(i)} />;
   };
-
-  const status = "Next player: " + (order % 2 === 0 ? "X" : "O");
 
   return (
     <div>
@@ -95,15 +45,32 @@ const Board = ({ handleInfo }) => {
   );
 };
 
-const App = () => {
-  const [info, setInfo] = useState("");
-  const changeInfo = (info) => {
-    setInfo(info);
+const App = ({ game }) => {
+  const [squares, setSquares] = useState(game.current); // latest history
+  const [info, setInfo] = useState(game.info); // status message
+  const status = game.status;
+  const nextPlayer = game.nextPlayer; // next player
+
+  // **NOTE: i 는 Board 내부에서 바인딩 된다.
+  const handleClick = (i) => {
+    // winner가 있거나, 이미 마킹된 위치라면 처리하지 않음 (Rule)
+    if (game.info || squares[i]) {
+      console.log(`invalid move[${i}]:`, game.info);
+      return;
+    }
+    console.log("handleClick", i);
+
+    // squares를 복제하고, i 위치에 nextPlayer를 마킹한다.
+    const nextSquare = game.next();
+    nextSquare[i] = nextPlayer;
+    setSquares(nextSquare);
+    setInfo(game.info);
   };
+
   return (
     <div className="game">
       <div className="game-board">
-        <Board handleInfo={changeInfo} />
+        <Board status={status} squares={squares} handleClick={handleClick} />
       </div>
       <div className="game-info">
         <div>{info}</div>
