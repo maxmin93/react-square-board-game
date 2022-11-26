@@ -96,6 +96,16 @@ $ yarn build  # ==> build 디렉토리에 배포버전 생성
 
 ![TicTacToe ver2 Capture](/assets/react-tictactoe-ver2.png){: width="600"}
 
+### 3) History 이용해 이전 스텝으로 이동하는 기능 추가
+
+스텝 버튼 생성을 위한 문자열은 컴포넌트 내에서 생성해야 함
+
+- Game 클래스에서 label 문자열을 만들어 태그를 생성하는데 실패
+- 렌더링 되는 대상은 컴포넌트에서 생성되도록 하는게 옳다
+  - key 를 부여해도 `li` 가 최종 label 하나만 생성됨
+
+![TicTacToe ver3 Capture](/assets/react-tictactoe-ver3-signed.png){: width="600"}
+
 ## 4. 핵심 포인트
 
 ### 0) [React Without JSX](https://reactjs.org/docs/react-without-jsx.html)
@@ -133,6 +143,38 @@ root.render(
 - useEffect 는 두번식 호출되는 경우가 잦다. (마운트, 언마운트)
   - 이 Hook 함수로 누적 카운팅 같은 작업은 하지 말것!
 
+### 4) 기타 등등
+
+#### `ol.li` 에서 `li` 에 `key` 가 반드시 있어야 한다
+
+- Warning 메시지
+
+```text
+Warning: Each child in a list should have a unique "key" prop.%s%s See https://reactjs.org/link/warning-keys for more information.%s
+
+Check the render method of `App`.
+    at li
+    at App (http://localhost:3000/main.007abd1a64e12d268dc1.hot-update.js:107:5)
+```
+
+- 해결
+
+```js
+const steps = Array.from(Array(game.step + 1).keys());
+const listItems = steps.map((index) => {
+  return (
+    <li key={index}>
+      <button onClick={() => gotoStep(index)}>
+        go to {index ? "step#" + index : "HEAD"}
+      </button>
+    </li>
+  );
+});
+```
+
 ## 9. Summary
 
 - React 는 정말 렌더링만 처리한다.
+- DOM 계층이 깊어지거나 복잡해지면 데이터와 로직 관리가 어려울듯
+  - 상태관리 라이브러리가 필수!
+  - [Recoil](https://recoiljs.org/docs/introduction/getting-started) 을 공부해보자!

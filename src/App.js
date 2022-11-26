@@ -51,6 +51,24 @@ const App = ({ game }) => {
   const status = game.status;
   const nextPlayer = game.nextPlayer; // next player
 
+  const gotoStep = (step) => {
+    console.log(`gotoStep:`, step);
+    const squares = game.backTo(step);
+    setSquares(squares);
+    setInfo(game.info);
+  };
+
+  const steps = Array.from(Array(game.step + 1).keys());
+  const listItems = steps.map((index) => {
+    return (
+      <li key={index}>
+        <button onClick={() => gotoStep(index)}>
+          go to {index ? "step#" + index : "HEAD"}
+        </button>
+      </li>
+    );
+  });
+
   // **NOTE: i 는 Board 내부에서 바인딩 된다.
   const handleClick = (i) => {
     // winner가 있거나, 이미 마킹된 위치라면 처리하지 않음 (Rule)
@@ -58,7 +76,7 @@ const App = ({ game }) => {
       console.log(`invalid move[${i}]:`, game.info);
       return;
     }
-    console.log("handleClick", i);
+    console.log(`step#${game.step}: click ${i}`);
 
     // squares를 복제하고, i 위치에 nextPlayer를 마킹한다.
     const nextSquare = game.next();
@@ -74,7 +92,7 @@ const App = ({ game }) => {
       </div>
       <div className="game-info">
         <div>{info}</div>
-        <ol>{/* TODO */}</ol>
+        <ol>{listItems}</ol>
       </div>
     </div>
   );

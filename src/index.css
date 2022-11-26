@@ -1,11 +1,12 @@
 body {
-  font: 40px "Century Gothic", Futura, sans-serif;
+  /* font: 30px "Century Gothic", Futura, sans-serif; */
   margin: 20px;
 }
 
 ol,
 ul {
   padding-left: 40px;
+  font: 20px "Century Gothic", Futura, sans-serif;
 }
 
 .board-row:after {
@@ -15,7 +16,8 @@ ul {
 }
 
 .status {
-  margin-bottom: 10px;
+  font: 30px "Century Gothic", Futura, sans-serif;
+  margin-bottom: 20px;
 }
 
 .square {
@@ -47,5 +49,7 @@ ul {
 }
 
 .game-info {
+  font: 30px "Century Gothic", Futura, sans-serif;
+  margin-bottom: 40px;
   margin-left: 40px;
 }

@@ -15,7 +15,8 @@ class Game {
   }
   get info() {
     const winner = this.checkWinner();
-    return winner ? `Winner='${winner}'` : null;
+    if (winner) return `Winner='${winner}'`;
+    return this.step < 9 ? null : "End in a Tie";
   }
   get status() {
     if (this.info) {
@@ -57,6 +58,34 @@ class Game {
       }
     }
     return null; // 승리자가 없음
+  }
+
+  /*
+    - typeof null === 'object' // true
+    - javascript 에는 tuple 이 없다
+
+    - arr2dict, dict2arr 문법
+    const arr2dict = [
+      ["key1","value1"],
+      ["key2", "value2"],
+      ["key3", "value3"]
+    ]
+    .reduce((acc, [key, value])=>({...acc, [key]: value}), {});
+    console.log(arr2dict);
+    console.log( Object.entries(arr2dict) );
+  */
+  getSteps() {
+    // array.map( (value, index) => { ... } )
+    return Array(this._history).map((squares) => {
+      const step = squares.filter((square) => square !== null).length;
+      const label = step ? "go to STEP#" + step : "go to HEAD";
+      return label;
+    });
+  }
+  backTo(index) {
+    console.log(`back to step ${index}`);
+    this._history = this._history.slice(0, index + 1);
+    return this.current;
   }
 }
 
