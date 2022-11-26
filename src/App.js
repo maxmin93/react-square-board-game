@@ -19,7 +19,7 @@ const Square = ({ value, onClick }) => {
 
 const Board = ({ status, squares, handleClick }) => {
   const renderSquare = (i) => {
-    // handleClick(i)는 Board 내부에서 바인딩 된다.
+    // i 값을 바인딩 하여 새로 onClick 함수를 정의함
     return <Square value={squares[i]} onClick={() => handleClick(i)} />;
   };
 

@@ -4,11 +4,11 @@
 
 - 공식문서에는 클래스형 컴포넌트로 설명하고 있음
 - 깃허브 또는 검색 결과에는 Board 컴포넌트가 클래스형으로 기술된 것들뿐
-- 리액트 공부 1-Day 과제
+- [리액트 공부 1-Day](https://taejoone.jeju.onl/posts/2022-11-21-react-tutorial-day1/) 과제
 
 ## 1. 설정
 
-최신 버전의 create-react-app 을 사용하려면 global 설치하지 말것!
+최신 버전의 create-react-app 을 사용하려면 global 설치하지 말것! (알아서 불러온다)
 
 ```bash
 # react: "^18.2.0"
