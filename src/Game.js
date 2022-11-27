@@ -83,7 +83,7 @@ class Game {
     });
   }
   backTo(index) {
-    console.log(`back to step ${index}`);
+    console.log(`back to STEP#${index}`);
     this._history = this._history.slice(0, index + 1);
     return this.current;
   }

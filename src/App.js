@@ -76,7 +76,7 @@ const App = ({ game }) => {
       console.log(`invalid move[${i}]:`, game.info);
       return;
     }
-    console.log(`step#${game.step}: click ${i}`);
+    console.log(`step#${game.step + 1}: click ${i}`);
 
     // squares를 복제하고, i 위치에 nextPlayer를 마킹한다.
     const nextSquare = game.next();
@@ -92,7 +92,7 @@ const App = ({ game }) => {
       </div>
       <div className="game-info">
         <div>{info}</div>
-        <ol>{listItems}</ol>
+        <ol start="0">{listItems}</ol>
       </div>
     </div>
   );
