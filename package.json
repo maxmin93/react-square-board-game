@@ -1,5 +1,6 @@
 {
   "name": "board-game",
+  "homepage": "/board-game",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
@@ -15,7 +16,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "deploy": "sudo rm -rf /var/www/react/board-game/* && sudo cp -r build/* /var/www/react/board-game/",
+    "reload": "sudo systemctl reload nginx.service"
   },
   "eslintConfig": {
     "extends": [

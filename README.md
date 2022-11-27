@@ -172,6 +172,58 @@ const listItems = steps.map((index) => {
 });
 ```
 
+## 5. 배포
+
+### 1) package.json
+
+```json
+{
+  "name": "square-board-game",
+  "homepage": "/board-game",
+  "version": "0.1.0",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "deploy": "sudo rm -rf /var/www/react/board-game/* && sudo cp -r build/* /var/www/react/board-game/",
+    "reload": "sudo systemctl reload nginx.service"
+  }
+}
+```
+
+### 2) nginx.conf
+
+```text
+  # Settings for a TLS enabled server.
+  server {
+    include /etc/nginx/default.d/*.conf;
+
+    autoindex off;
+    location / {
+      root        /usr/share/nginx/html;
+      index       index.html;
+    }
+
+    error_page 404 /404.html;
+    location = /40x.html {
+    }
+
+    error_page 500 502 503 504 /50x.html;
+    location = /50x.html {
+    }
+
+    location /robots.txt {
+      return 200 "User-agent: *\nDisallow: /\n";
+    }
+
+    location /board-game {
+      alias /var/www/react/board-game;
+      try_files $uri $uri/ $uri/index.html;
+    }
+  }
+```
+
 ## 9. Summary
 
 - React 는 정말 렌더링만 처리한다.
